@@ -18,11 +18,7 @@ public class Student {
 
     String name;
 
-    @OneToOne
+    @OneToOne(mappedBy = "student")
     private Profile profile;
-
-
-
-
 
 }

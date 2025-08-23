@@ -29,7 +29,7 @@ public class Profile {
     @JoinColumn(name = "college_name")
     private College college;
 
-    @OneToOne(mappedBy = "profile")
+    @OneToOne
     @JoinColumn(name = "student_id")
     private Student student;
 
