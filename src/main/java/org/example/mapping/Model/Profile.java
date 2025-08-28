@@ -1,10 +1,12 @@
 package org.example.mapping.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,16 +31,19 @@ public class Profile {
     @JoinColumn(name = "college_name")
     private College college;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "student_id")
+    @JsonIgnore
     private Student student;
 
-     @ManyToMany
-     @JoinTable(
-             name = "profile_subject",
-             joinColumns = @JoinColumn(name = "profile_id"),
-             inverseJoinColumns = @JoinColumn(name = "subject_id")
-     )
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "profiles",cascade = CascadeType.PERSIST)
     private Set<Subject> subjects;
+
+    public void setSubjects(Set<Subject> subjects) {
+        subjects.forEach(s->{s.getProfiles().add(this);});
+        this.subjects = subjects;
+    }
+
+
 
 }

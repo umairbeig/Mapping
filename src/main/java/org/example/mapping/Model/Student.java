@@ -1,5 +1,6 @@
 package org.example.mapping.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,13 @@ public class Student {
 
     String name;
 
-    @OneToOne(mappedBy = "student")
+    @OneToOne(mappedBy = "student",cascade = CascadeType.PERSIST)
     private Profile profile;
+
+
+    public void setProfile(Profile profile) {
+        profile.setStudent(this);
+        this.profile = profile;
+    }
 
 }

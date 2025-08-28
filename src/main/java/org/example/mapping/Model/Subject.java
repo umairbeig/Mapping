@@ -1,10 +1,12 @@
 package org.example.mapping.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,7 +22,15 @@ public class Subject {
     @Column(name = "Subject_Name")
     private String name;
 
-    @ManyToMany(mappedBy = "subjects")
+    @ManyToMany
+    @JoinTable(
+            name = "Profile_subjects",
+            joinColumns = @JoinColumn(name = "profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
+//    @JsonIgnore
     private Set<Profile> profiles;
+
+
 
 }
